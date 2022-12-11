@@ -17,14 +17,23 @@ public class CreateDataSet {
     public static void main(String[] args) {
         SparkSession sparkSession = SparkContextFactory.getSparkSession();
         createDatasetFromFile(sparkSession);
-        createDataSetOnFlyForMarvel(sparkSession);
+      //  createDataSetOnFlyForMarvel(sparkSession);
+    }
+
+    public static Dataset<Row> createDatasetFromFile(SparkSession sparkSession) {
+        Dataset<Row> ds = sparkSession
+                .read()
+                .format("json")
+                .load(FileUtils.SUMMARY_2015);
+        ds.show();
+        return ds;
     }
 
     public static Dataset<Row> createDataSetOnFlyForMarvel(SparkSession sparkSession) {
-        List<Row> rows = getMarvelDataAsRows();
         StructType structType = getSchema();
+        List<Row> rows = getMarvelDataAsRows();
         Dataset<Row> dataset = sparkSession.createDataFrame(rows, structType);
-       // dataset.takeAsList(10).forEach(System.out::println);
+        // dataset.takeAsList(10).forEach(System.out::println);
         dataset.show();
         return dataset;
     }
@@ -36,15 +45,6 @@ public class CreateDataSet {
         // dataset.takeAsList(10).forEach(System.out::println);
         dataset.show();
         return dataset;
-    }
-
-    public static Dataset<Row> createDatasetFromFile(SparkSession sparkSession) {
-        Dataset<Row> ds = sparkSession
-                .read()
-                .format("json")
-                .load(FileUtils.SUMMARY_2015);
-        ds.show();
-        return ds;
     }
 
     private static StructType getSchema() {
