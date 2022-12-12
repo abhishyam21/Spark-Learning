@@ -13,7 +13,7 @@ public class PrintSchema {
                 .format("json")
                 .load("/Users/300069965/Documents/spark/data/flight-data/json/2015-summary.json");
         //Print the structure of the file
-        //ds.printSchema();
+        ds.printSchema();
 
         // Get the Spark level schema for the input file
         StructType structType = sparkSession.read()

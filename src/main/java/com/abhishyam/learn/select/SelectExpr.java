@@ -17,13 +17,13 @@ public class SelectExpr {
         //   changeColumnName(dataset);
         //addWithInCountryFlag(dataset);
         // aggValues(dataset);
-        // removeColumn(dataset);
-        // changeColumnType(dataset);
+         // removeColumn(dataset);
+         //changeColumnType(dataset);
         // filter(dataset);
-        //distinctRows(dataset);
+        // distinctRows(dataset);
          // unionDS(sparkSession);
-        // sorting(sparkSession);
-        partition(dataset);
+         sorting(sparkSession);
+       // partition(dataset);
     }
 
     /*
@@ -46,9 +46,16 @@ public class SelectExpr {
         Dataset<Row> moviesDS = marvelDS.union(dcDS);
         moviesDS.sort("age").show();
         moviesDS.orderBy("movie").show();
-        moviesDS.orderBy(new Column("movie").desc_nulls_first(), new Column("age").asc_nulls_last()).show();
+        moviesDS.orderBy(new Column("movie").desc_nulls_first(),
+                new Column("age").asc_nulls_last())
+                .show();
     }
 
+    /**
+     * This just concatenates the two DataFrames. To union two DataFrames,
+     * you must be sure that they have the same schema and number of columns;
+     * otherwise, the union will fail.
+     */
     private static void unionDS(SparkSession sparkSession) {
         Dataset<Row> marvelDS = CreateDataSet.createDataSetOnFlyForMarvel(sparkSession);
         Dataset<Row> dcDS = CreateDataSet.createDataSetOnFlyForDC(sparkSession);
